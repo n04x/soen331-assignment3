@@ -20,7 +20,7 @@ class BoundedPQProgram
         pq.Insert(e5);
 
         Console.WriteLine(pq.ToString());
-        Console.WriteLine("The element with the smallest key: " + pq.min().ToString());
+        Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
     }
     static void TestPQ(int numOps) {
 
@@ -96,7 +96,7 @@ public class PriorityQueue <T> where T : IComparable <T> {
         }
         return front_item;
     }
-    public T min() {
+    public T Min() {
         T front = element[0];
         return front;
     }
