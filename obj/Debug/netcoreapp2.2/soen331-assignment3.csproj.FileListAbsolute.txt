@@ -1,0 +1,11 @@
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.csprojAssemblyReference.cache
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.csproj.CoreCompileInputs.cache
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.AssemblyInfoInputs.cache
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.AssemblyInfo.cs
+/home/noax/Documents/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.deps.json
+/home/noax/Documents/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.runtimeconfig.json
+/home/noax/Documents/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.runtimeconfig.dev.json
+/home/noax/Documents/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.dll
+/home/noax/Documents/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.pdb
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.dll
+/home/noax/Documents/soen331/soen331-assignment3/obj/Debug/netcoreapp2.2/soen331-assignment3.pdb
