@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 class BoundedPQProgram
 {
@@ -18,6 +19,7 @@ class BoundedPQProgram
         pq.Insert(e3);
         pq.Insert(e4);
         pq.Insert(e5);
+             
 
         Console.WriteLine(pq.ToString());
         Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
@@ -35,14 +37,20 @@ public class Element : IComparable<Element> {
     public Element(string el, float k) {
         this.element = el;
         this.key = k;
-    } 
+    }
 
-    public int CompareTo(Element other) {
-        if(this.key < other.key) {
+    int IComparable<Element>.CompareTo(Element other)
+    {
+        if (this.key < other.key)
+        {
             return -1;
-        } else if(this.key > other.key) {
+        }
+        else if (this.key > other.key)
+        {
             return 1;
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
@@ -60,11 +68,13 @@ public class PriorityQueue <T> where T : IComparable <T> {
         // Console.WriteLine("Adding " + item.ToString() + " to PQ");
         element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
+        Contract.Requires(child > 0); //not sure if this contract is necessary
         while(child> 0) {
             int parent = (child -1) / 2;    // binary tree traversal
             if(element[child].CompareTo(element[parent]) >= 0) { // check the key if the child key is greater than parent or not.
                 break;
             }
+            Console.WriteLine("element child " + element + " " + child + " element parent" + element[parent]);
             T temp = element[child];
             element[child] = element[parent];
             element[parent] = temp;
@@ -72,8 +82,10 @@ public class PriorityQueue <T> where T : IComparable <T> {
         }
     }
     public T Remove() {
+
         // assume it is not empty, will need to enforce that with Contracts.
         int last = element.Count - 1;
+        Contract.Requires(last > 0); //pre-condition assuring last is bigger than 0
         T front_item = element[0];
         element[0] = element[last];
         element.RemoveAt(last);
@@ -97,6 +109,7 @@ public class PriorityQueue <T> where T : IComparable <T> {
         return front_item;
     }
     public T Min() {
+
         T front = element[0];
         return front;
     }

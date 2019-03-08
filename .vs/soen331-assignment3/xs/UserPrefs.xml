@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{FA650D95-200F-4F7B-94AC-99304F1CCC28}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BoundedPQProgram.cs">
+    <Files>
+      <File FileName="BoundedPQProgram.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="soen331-assignment3" expanded="True">
+            <Node name="soen331-assignment3" expanded="True">
+              <Node name="BoundedPQProgram.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.soen331-assignment3 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
