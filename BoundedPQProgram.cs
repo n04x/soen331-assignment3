@@ -6,7 +6,7 @@ class BoundedPQProgram
     static void Main(string[] args)
     {
         Console.WriteLine("Begin Priority Queue Program");
-        PriorityQueue <Element> pq = new PriorityQueue<Element>();
+        PriorityQueue <Element> pq = new PriorityQueue<Element>(5);
 
         Element e1 = new Element("Dog", 2.0f);
         Element e2 = new Element("Cat", 1.0f);
@@ -18,6 +18,14 @@ class BoundedPQProgram
         pq.Insert(e3);
         pq.Insert(e4);
         pq.Insert(e5);
+        
+        // Below is new stuff in order to test our Bounded way.
+        Element b1 = new Element("T-Rex", 3.1f);
+        Element b2 = new Element("Velociraptor", 0.75f);
+        Element b3 = new Element("Triceratops", 4.0f); // this should never be added.
+        pq.Insert(b1);
+        pq.Insert(b2);
+        pq.Insert(b3);
 
         Console.WriteLine(pq.ToString());
         Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
@@ -52,13 +60,25 @@ public class Element : IComparable<Element> {
 }
 public class PriorityQueue <T> where T : IComparable <T> {
     private List<T> element;
+    private int capacity;
 
-    public PriorityQueue() {
+    public PriorityQueue(int c) {
         this.element = new List<T>();
+        this.capacity = c;
     }
     public void Insert(T item) {
-        // Console.WriteLine("Adding " + item.ToString() + " to PQ");
-        element.Add(item);
+        int size = element.Count;
+        if(size  >= capacity) {
+            int max = Max();
+            T temp = element[max];
+            if(temp.CompareTo(item) >= 0) {
+                element[max] = item;
+                Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
+            }
+        } else {
+            element.Add(item);
+        }
+        // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
         while(child> 0) {
             int parent = (child -1) / 2;    // binary tree traversal
@@ -95,6 +115,15 @@ public class PriorityQueue <T> where T : IComparable <T> {
             parent = left_child;
         }
         return front_item;
+    }
+    public int Max() {
+        int index = 0;
+        for(int i = 1; i < element.Count - 1; i++) {
+            if(element[index].CompareTo(element[i]) <= 0) {
+                index = i;
+            }
+        }
+        return index;
     }
     public T Min() {
         T front = element[0];
