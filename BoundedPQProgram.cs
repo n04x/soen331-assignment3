@@ -19,13 +19,14 @@ class BoundedPQProgram
         pq.Insert(e4);
         pq.Insert(e5);
         
+        Console.WriteLine("We remove: " + pq.Remove().ToString());
         // Below is new stuff in order to test our Bounded way.
-        Element b1 = new Element("T-Rex", 3.1f);
-        Element b2 = new Element("Velociraptor", 0.75f);
-        Element b3 = new Element("Triceratops", 4.0f); // this should never be added.
-        pq.Insert(b1);
-        pq.Insert(b2);
-        pq.Insert(b3);
+        // Element b1 = new Element("T-Rex", 3.1f);
+        // Element b2 = new Element("Velociraptor", 0.75f);
+        // Element b3 = new Element("Triceratops", 4.0f); // this should never be added.
+        // pq.Insert(b1);
+        // pq.Insert(b2);
+        // pq.Insert(b3);
 
         Console.WriteLine(pq.ToString());
         Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
@@ -66,6 +67,11 @@ public class PriorityQueue <T> where T : IComparable <T> {
         this.element = new List<T>();
         this.capacity = c;
     }
+    // The contract for insert would be:
+    // Precondition: item must be a type T.
+    // Postcondition: if size >= capacity then replace the highest one.
+    //                if size < capacity then add it to the end and perform sorting, using binary traversal
+    //                size' = size.old + 1.
     public void Insert(T item) {
         int size = element.Count;
         if(size  >= capacity) {
@@ -91,6 +97,11 @@ public class PriorityQueue <T> where T : IComparable <T> {
             child = parent;
         }
     }
+    // The contract for remove would be:
+    // precondition: highest priority item must be at first.
+    // postcondition: remove element at last.
+    //                rebuild the binary heap.
+    //                size' = size.old - 1
     public T Remove() {
         // assume it is not empty, will need to enforce that with Contracts.
         int last = element.Count - 1;
@@ -125,6 +136,10 @@ public class PriorityQueue <T> where T : IComparable <T> {
         }
         return index;
     }
+    // The contract for min would be:
+    // precondtion: -
+    // postcondition: front must be of type T.
+    //                display element at position 0.
     public T Min() {
         T front = element[0];
         return front;
