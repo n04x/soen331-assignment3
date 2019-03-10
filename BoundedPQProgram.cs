@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 class BoundedPQProgram
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Begin Priority Queue Program");
-        PriorityQueue <Element> pq = new PriorityQueue<Element>(5);
+        PriorityQueue<Element> pq = new PriorityQueue<Element>(5);
 
         Element e1 = new Element("Dog", 2.0f);
         Element e2 = new Element("Cat", 1.0f);
@@ -18,7 +19,7 @@ class BoundedPQProgram
         pq.Insert(e3);
         pq.Insert(e4);
         pq.Insert(e5);
-        
+
         Console.WriteLine("We remove: " + pq.Remove().ToString());
         // Below is new stuff in order to test our Bounded way.
         // Element b1 = new Element("T-Rex", 3.1f);
@@ -31,39 +32,53 @@ class BoundedPQProgram
         Console.WriteLine(pq.ToString());
         Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
     }
-    static void TestPQ(int numOps) {
+    static void TestPQ(int numOps)
+    {
 
     }
 }
-public class Element : IComparable<Element> {
+public class Element : IComparable<Element>
+{
 
     public string element;
     public float key;      // small value are more important.
 
     // constructor
-    public Element(string el, float k) {
+    public Element(string el, float k)
+    {
         this.element = el;
         this.key = k;
-    } 
+    }
 
-    public int CompareTo(Element other) {
-        if(this.key < other.key) {
+    [ContractInvariantMethod]
+    public int CompareTo(Element other)
+    {
+        Contract.Invariant(this.key >= 0); //Invariant ensuring the key is >= 0
+        if (this.key < other.key)
+        {
             return -1;
-        } else if(this.key > other.key) {
+        }
+        else if (this.key > other.key)
+        {
             return 1;
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
-    public override string ToString() {
+    public override string ToString()
+    {
         return this.element + ":" + this.key;
     }
 }
-public class PriorityQueue <T> where T : IComparable <T> {
+public class PriorityQueue<T> where T : IComparable<T>
+{
     private List<T> element;
-    private int capacity;
+    private readonly int capacity;
 
-    public PriorityQueue(int c) {
+    public PriorityQueue(int c)
+    {
         this.element = new List<T>();
         this.capacity = c;
     }
@@ -72,23 +87,38 @@ public class PriorityQueue <T> where T : IComparable <T> {
     // Postcondition: if size >= capacity then replace the highest one.
     //                if size < capacity then add it to the end and perform sorting, using binary traversal
     //                size' = size.old + 1.
-    public void Insert(T item) {
+
+    [ContractInvariantMethod]
+    public void Insert(T item)
+    {
+
         int size = element.Count;
-        if(size  >= capacity) {
+        Contract.Invariant(size <= capacity); //Invariant ensuring size is less or equal to capacity
+        if (size >= capacity)
+        {
             int max = Max();
             T temp = element[max];
-            if(temp.CompareTo(item) >= 0) {
+            if (temp.CompareTo(item) >= 0)
+            {
                 element[max] = item;
+                Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
                 Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
             }
-        } else {
+        }
+        else
+        {
+
             element.Add(item);
+            Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
         }
         // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
-        while(child> 0) {
-            int parent = (child -1) / 2;    // binary tree traversal
-            if(element[child].CompareTo(element[parent]) >= 0) { // check the key if the child key is greater than parent or not.
+        Contract.Requires(child > 0); //precondition ensuring that child is bigger than 0
+        while (child > 0)
+        {
+            int parent = (child - 1) / 2;    // binary tree traversal
+            if (element[child].CompareTo(element[parent]) >= 0)
+            { // check the key if the child key is greater than parent or not.
                 break;
             }
             T temp = element[child];
@@ -102,22 +132,27 @@ public class PriorityQueue <T> where T : IComparable <T> {
     // postcondition: remove element at last.
     //                rebuild the binary heap.
     //                size' = size.old - 1
-    public T Remove() {
+    public T Remove()
+    {
         // assume it is not empty, will need to enforce that with Contracts.
         int last = element.Count - 1;
+       Contract.Requires(last > 0);//precondition assuring last is bigger than 0
         T front_item = element[0];
         element[0] = element[last];
         element.RemoveAt(last);
 
         last--;
         int parent = 0; // parent index.
-        while(true) {
+        while (true)
+        {
             int left_child = parent * 2 + 1; // left child
-            if(left_child > last) {
+            if (left_child > last)
+            {
                 break;
             }
             int right_child = left_child + 1;
-            if(right_child <= last && element[right_child].CompareTo(element[left_child]) <= 0) { // if there is a right child and it is smaller than left child, use it instead
+            if (right_child <= last && element[right_child].CompareTo(element[left_child]) <= 0)
+            { // if there is a right child and it is smaller than left child, use it instead
                 left_child = right_child;
             }
             T temp = element[parent];
@@ -127,10 +162,13 @@ public class PriorityQueue <T> where T : IComparable <T> {
         }
         return front_item;
     }
-    public int Max() {
+    public int Max()
+    {
         int index = 0;
-        for(int i = 1; i < element.Count - 1; i++) {
-            if(element[index].CompareTo(element[i]) <= 0) {
+        for (int i = 1; i < element.Count - 1; i++)
+        {
+            if (element[index].CompareTo(element[i]) <= 0)
+            {
                 index = i;
             }
         }
@@ -140,14 +178,17 @@ public class PriorityQueue <T> where T : IComparable <T> {
     // precondtion: -
     // postcondition: front must be of type T.
     //                display element at position 0.
-    public T Min() {
+    public T Min()
+    {
         T front = element[0];
         return front;
     }
-    public override string ToString() {
+    public override string ToString()
+    {
         string str = "";
-        str  += "Number of element in PQ: " + element.Count + "\n";
-        foreach(T el in element) {
+        str += "Number of element in PQ: " + element.Count + "\n";
+        foreach (T el in element)
+        {
             str += el.ToString() + "\n";
         }
         return str;
