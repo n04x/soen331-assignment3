@@ -125,6 +125,9 @@ public class PriorityQueue<T> where T : IComparable<T>
             element[child] = element[parent];
             element[parent] = temp;
             child = parent;
+
+            //Postcondition: New size should be size.old+1
+            Contract.Ensures(element.Count == (size+1));
         }
     }
     // The contract for remove would be:
@@ -160,6 +163,9 @@ public class PriorityQueue<T> where T : IComparable<T>
             element[left_child] = temp;
             parent = left_child;
         }
+
+        //Postcondition: New sizw should be size.old - 1
+        Contract.Ensures(element.Count == last);
         return front_item;
     }
     public int Max()
@@ -181,6 +187,9 @@ public class PriorityQueue<T> where T : IComparable<T>
     public T Min()
     {
         T front = element[0];
+
+        //Postcondition: Display element at the front
+        Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
         return front;
     }
     public override string ToString()
@@ -194,4 +203,3 @@ public class PriorityQueue<T> where T : IComparable<T>
         return str;
     }
 }
-
