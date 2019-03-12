@@ -104,6 +104,8 @@ public class PriorityQueue<T> where T : IComparable<T>
     [ContractInvariantMethod]
     public void Insert(T item)
     {
+        //Precondition: Item must be of type T
+        Contract.Requires(typeof(T) == item.GetType(), "Item must be of type " + typeof(T));
 
         int size = element.Count;
         Contract.Invariant(size <= capacity); //Invariant ensuring size is less or equal to capacity
@@ -116,6 +118,8 @@ public class PriorityQueue<T> where T : IComparable<T>
                 element[max] = item;
                 Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
                 Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
+                //Postcondition: New size should be the same as size.old
+                Contract.Ensures(element.Count == size);
             }
         }
         else
@@ -123,6 +127,9 @@ public class PriorityQueue<T> where T : IComparable<T>
 
             element.Add(item);
             Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
+
+            //Postcondition: New size should be size.old+1
+            Contract.Ensures(element.Count == (size+1));
         }
         // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
@@ -138,9 +145,6 @@ public class PriorityQueue<T> where T : IComparable<T>
             element[child] = element[parent];
             element[parent] = temp;
             child = parent;
-
-            //Postcondition: New size should be size.old+1
-            Contract.Ensures(element.Count == (size+1));
         }
     }
     // The contract for remove would be:
@@ -177,7 +181,7 @@ public class PriorityQueue<T> where T : IComparable<T>
             parent = left_child;
         }
 
-        //Postcondition: New sizw should be size.old - 1
+        //Postcondition: New size should be size.old - 1
         Contract.Ensures(element.Count == last);
         return front_item;
     }

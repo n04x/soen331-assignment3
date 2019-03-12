@@ -1,9 +1,15 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
+<<<<<<< HEAD
       "/home/noax/.dotnet/store/|arch|/|tfm|",
       "/home/noax/.nuget/packages",
       "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+=======
+      "/home/achung/.dotnet/store/|arch|/|tfm|",
+      "/home/achung/.nuget/packages",
+      "/opt/dotnet/sdk/NuGetFallbackFolder"
+>>>>>>> Angel
     ]
   }
 }
