@@ -14,6 +14,8 @@ class BoundedPQProgram
         Element e3 = new Element("Parrot", 3.0f);
         Element e4 = new Element("Bear", 3.5f);
         Element e5 = new Element("Penguin", 0.5f);
+        //Test test = new Test("Test", 1); for testing
+
         pq.Insert(e1);
         pq.Insert(e2);
         pq.Insert(e3);
@@ -37,6 +39,45 @@ class BoundedPQProgram
 
     }
 }
+
+/* FOR TESTING
+
+public class Test : IComparable<Element>
+{
+
+    public string element;
+    public float key;      // small value are more important.
+
+    // constructor
+    public Test(string el, float k)
+    {
+        this.element = el;
+        this.key = k;
+    }
+
+     [ContractInvariantMethod]
+    public int CompareTo(Element other)
+    {
+        Contract.Invariant(this.key >= 0); //Invariant ensuring the key is >= 0
+        if (this.key < other.key)
+        {
+            return -1;
+        }
+        else if (this.key > other.key)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public override string ToString()
+    {
+        return this.element + ":" + this.key;
+    }
+}*/
+
 public class Element : IComparable<Element>
 {
 
@@ -91,6 +132,8 @@ public class PriorityQueue<T> where T : IComparable<T>
     [ContractInvariantMethod]
     public void Insert(T item)
     {
+        //Precondition: Item must be of type T
+        Contract.Requires(typeof(T) == item.GetType(), "Item must be of type " + typeof(T));
 
         int size = element.Count;
         Contract.Invariant(size <= capacity); //Invariant ensuring size is less or equal to capacity
@@ -103,6 +146,8 @@ public class PriorityQueue<T> where T : IComparable<T>
                 element[max] = item;
                 Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
                 Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
+                //Postcondition: New size should be the same as size.old
+                Contract.Ensures(element.Count == size);
             }
         }
         else
@@ -110,6 +155,9 @@ public class PriorityQueue<T> where T : IComparable<T>
 
             element.Add(item);
             Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
+
+            //Postcondition: New size should be size.old+1
+            Contract.Ensures(element.Count == (size+1));
         }
         // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
@@ -125,9 +173,6 @@ public class PriorityQueue<T> where T : IComparable<T>
             element[child] = element[parent];
             element[parent] = temp;
             child = parent;
-
-            //Postcondition: New size should be size.old+1
-            Contract.Ensures(element.Count == (size+1));
         }
     }
     // The contract for remove would be:
@@ -164,7 +209,7 @@ public class PriorityQueue<T> where T : IComparable<T>
             parent = left_child;
         }
 
-        //Postcondition: New sizw should be size.old - 1
+        //Postcondition: New size should be size.old - 1
         Contract.Ensures(element.Count == last);
         return front_item;
     }
@@ -189,7 +234,7 @@ public class PriorityQueue<T> where T : IComparable<T>
         T front = element[0];
 
         //Postcondition: Display element at the front
-        Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
+        //Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
         return front;
     }
     public override string ToString()
