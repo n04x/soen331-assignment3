@@ -552,12 +552,11 @@
       ]
     },
     "NETStandard.Library/2.0.3": {
-      "sha512": "548M6mnBSJWxsIlkQHfbzoYxpiYFXZZSL00p4GHYv8PkiqFBnnT68mW5mGEsA/ch9fDO9GkPgkFQpWiXZN7mAQ==",
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
       "path": "netstandard.library/2.0.3",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "build/netstandard2.0/NETStandard.Library.targets",
@@ -687,18 +686,12 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
     "/home/noax/.nuget/packages/": {},
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
-=======
-    "/home/achung/.nuget/packages/": {},
-    "/opt/dotnet/sdk/NuGetFallbackFolder": {}
->>>>>>> Angel
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "/home/noax/Documents/soen331/soen331-assignment3/soen331-assignment3.csproj",
       "projectName": "soen331-assignment3",
       "projectPath": "/home/noax/Documents/soen331/soen331-assignment3/soen331-assignment3.csproj",
@@ -710,19 +703,6 @@
       ],
       "configFilePaths": [
         "/home/noax/.nuget/NuGet/NuGet.Config"
-=======
-      "projectUniqueName": "/home/achung/soen331/soen331-assignment3/soen331-assignment3.csproj",
-      "projectName": "soen331-assignment3",
-      "projectPath": "/home/achung/soen331/soen331-assignment3/soen331-assignment3.csproj",
-      "packagesPath": "/home/achung/.nuget/packages/",
-      "outputPath": "/home/achung/soen331/soen331-assignment3/obj/",
-      "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "/opt/dotnet/sdk/NuGetFallbackFolder"
-      ],
-      "configFilePaths": [
-        "/home/achung/.nuget/NuGet/NuGet.Config"
->>>>>>> Angel
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -758,5 +738,13 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /home/noax/Documents/soen331/soen331-assignment3/obj/soen331-assignment3.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
