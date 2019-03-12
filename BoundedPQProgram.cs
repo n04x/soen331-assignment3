@@ -27,16 +27,17 @@ class BoundedPQProgram
                     float key = float.Parse(Console.ReadLine());
                     Element e = new Element(element, key);
                     pq.Insert(e);
+                    Console.WriteLine("\n\n");
                     break;
                 case 2:
                     Console.WriteLine("We now remove the first element in the PQ");
-                    Console.WriteLine("Element " + pq.Remove().ToString() + " has been removed!");
+                    Console.WriteLine("Element " + pq.Remove().ToString() + " has been removed!\n\n");
                     break;
                 case 3:
-                    Console.WriteLine("The element with the lowest key is: " + pq.Min().ToString());
+                    Console.WriteLine("The element with the lowest key is: " + pq.Min().ToString() + "\n\n");
                     break;
                 case 4:
-                    Console.WriteLine(pq.ToString());
+                    Console.WriteLine(pq.ToString() + "\n\n");
                     break;
                 case 5:
                     Console.WriteLine("Thank you for using BoundedPQ Program!");
