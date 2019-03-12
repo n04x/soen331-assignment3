@@ -9,28 +9,41 @@ class BoundedPQProgram
         Console.WriteLine("Begin Priority Queue Program");
         PriorityQueue<Element> pq = new PriorityQueue<Element>(5);
 
-        Element e1 = new Element("Dog", 2.0f);
-        Element e2 = new Element("Cat", 1.0f);
-        Element e3 = new Element("Parrot", 3.0f);
-        Element e4 = new Element("Bear", 3.5f);
-        Element e5 = new Element("Penguin", 0.5f);
-        pq.Insert(e1);
-        pq.Insert(e2);
-        pq.Insert(e3);
-        pq.Insert(e4);
-        pq.Insert(e5);
-
-        Console.WriteLine("We remove: " + pq.Remove().ToString());
-        // Below is new stuff in order to test our Bounded way.
-        // Element b1 = new Element("T-Rex", 3.1f);
-        // Element b2 = new Element("Velociraptor", 0.75f);
-        // Element b3 = new Element("Triceratops", 4.0f); // this should never be added.
-        // pq.Insert(b1);
-        // pq.Insert(b2);
-        // pq.Insert(b3);
-
-        Console.WriteLine(pq.ToString());
-        Console.WriteLine("The element with the smallest key: " + pq.Min().ToString());
+        bool exit = false;
+        
+        while(!exit) {
+            Console.WriteLine("Choose an action:");
+            Console.WriteLine("Type 1 to Insert a new element");
+            Console.WriteLine("Type 2 to Remove an element");
+            Console.WriteLine("Type 3 to return the Minimum");
+            Console.WriteLine("Type 4 to print the queue");
+            Console.WriteLine("Type 5 to exit");
+            int action = Convert.ToInt32(Console.ReadLine());
+            switch(action) {
+                case 1:
+                    Console.WriteLine("Add a new element: ");
+                    string element = Console.ReadLine();
+                    Console.WriteLine("Add a key:");
+                    float key = float.Parse(Console.ReadLine());
+                    Element e = new Element(element, key);
+                    pq.Insert(e);
+                    break;
+                case 2:
+                    Console.WriteLine("We now remove the first element in the PQ");
+                    Console.WriteLine("Element " + pq.Remove().ToString() + " has been removed!");
+                    break;
+                case 3:
+                    Console.WriteLine("The element with the lowest key is: " + pq.Min().ToString());
+                    break;
+                case 4:
+                    Console.WriteLine(pq.ToString());
+                    break;
+                case 5:
+                    Console.WriteLine("Thank you for using BoundedPQ Program!");
+                    exit = true;
+                    break;
+            }
+        }
     }
     static void TestPQ(int numOps)
     {
@@ -69,7 +82,7 @@ public class Element : IComparable<Element>
     }
     public override string ToString()
     {
-        return this.element + ":" + this.key;
+        return this.element + ": " + this.key;
     }
 }
 public class PriorityQueue<T> where T : IComparable<T>
@@ -189,9 +202,11 @@ public class PriorityQueue<T> where T : IComparable<T>
         T front = element[0];
 
         //Postcondition: Display element at the front
-        Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
+        Contract.Ensures(front.Equals(element[0]));
+        // Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
         return front;
     }
+  
     public override string ToString()
     {
         string str = "";
