@@ -4,7 +4,6 @@ Group assignment for SOEN331, build a Priority Queue in C#
 ## Authors
 Thomas Backs - 27554524    
 Angel Chung - 40047737    
-Michael Mansy - 40004472    
 Antoine Betenjaneh - 27161956    
 
 ## Assignment #3
@@ -17,7 +16,7 @@ We implement a List collection for storing our element in the priority queue. Af
 We use a List collection to implement our Priority Queue since it is easier to manage a list for our binary heap.    
 
 ## How to use
-Simply run it in command line, under Linux you simply move to the current folder and type `dotnet run` and it will run the program. In the program, there will be different actions proposed to the user such as Insert, Remove, Min, and etc. based on numerical input between 1 and 5 from the user. To exit it, simply press 5 and enter.    
+In order to be able to use Code Contracts from C#, it must have the C# extension installed and running Visual Studio 2015. The Code Contracts extension is not available to be tested in runtime on Visual Studio 2017.    
 
 ### Use Insert
 To use insert function, simply enter `1` and press `Enter`, it will prompt you a string elemen, find a nice name for it, then press `Enter` again, another prompt will appear asking you to assign a `key` to it which will be a `float` value. Once it is complete you press `Enter` and it will take you back to the Main page and the new element has been added to our priority queue.
