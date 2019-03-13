@@ -25,6 +25,7 @@ class BoundedPQProgram
                     string element = Console.ReadLine();
                     Console.WriteLine("Add a key:");
                     float key = float.Parse(Console.ReadLine());
+                    System.Diagnostics.Debug.Assert(key > 0);
                     Element e = new Element(element, key);
                     pq.Insert(e);
                     Console.WriteLine("\n\n");
@@ -107,7 +108,6 @@ public class PriorityQueue<T> where T : IComparable<T>
     {
         //Precondition: Item must be of type T
         Contract.Requires(typeof(T) == item.GetType(), "Item must be of type " + typeof(T));
-
         int size = element.Count;
         Contract.Invariant(size <= capacity); //Invariant ensuring size is less or equal to capacity
         if (size >= capacity)
