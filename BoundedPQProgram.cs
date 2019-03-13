@@ -10,7 +10,12 @@ class BoundedPQProgram
         PriorityQueue<Element> pq = new PriorityQueue<Element>(5);
 
         bool exit = false;
-        
+        pq.Insert(new Element("penguin", 0.5f));
+        pq.Insert(new Element("dog", 3.0f));
+        pq.Insert(new Element("cat", 1.5f));
+        pq.Insert(new Element("parrot", 4.5f));
+        Element t1 = new Element("T-rex", -2.5f);
+        pq.Insert(t1);
         while(!exit) {
             Console.WriteLine("Choose an action:");
             Console.WriteLine("Type 1 to Insert a new element");
@@ -25,7 +30,8 @@ class BoundedPQProgram
                     string element = Console.ReadLine();
                     Console.WriteLine("Add a key:");
                     float key = float.Parse(Console.ReadLine());
-                    System.Diagnostics.Debug.Assert(key > 0);
+                    // System.Diagnostics.Debug.Assert(key > 0);
+                    // Contract.Requires(key > 0);
                     Element e = new Element(element, key);
                     pq.Insert(e);
                     Console.WriteLine("\n\n");
@@ -61,14 +67,16 @@ public class Element : IComparable<Element>
     // constructor
     public Element(string el, float k)
     {
+        Contract.Requires(k >= 0, "key is negative");
         this.element = el;
         this.key = k;
     }
 
-    [ContractInvariantMethod]
+    // [ContractInvariantMethod]
     public int CompareTo(Element other)
     {
-        Contract.Invariant(this.key >= 0); //Invariant ensuring the key is >= 0
+        // Contract.Invariant(this.key >= 0); //Invariant ensuring the key is >= 0
+        Contract.Requires(this.key >= 0);
         if (this.key < other.key)
         {
             return -1;
@@ -103,13 +111,15 @@ public class PriorityQueue<T> where T : IComparable<T>
     //                if size < capacity then add it to the end and perform sorting, using binary traversal
     //                size' = size.old + 1.
 
-    [ContractInvariantMethod]
+    // [ContractInvariantMethod]
+    // [System.Diagnostics.Conditional("CONTRACT_FULL")]
     public void Insert(T item)
     {
         //Precondition: Item must be of type T
         Contract.Requires(typeof(T) == item.GetType(), "Item must be of type " + typeof(T));
+        Contract.Requires(element.Count <= capacity, "element must be less or equal to capacity"); //Invariant ensuring size is less or equal to capacity
+        Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1, "element is not the proper size");
         int size = element.Count;
-        Contract.Invariant(size <= capacity); //Invariant ensuring size is less or equal to capacity
         if (size >= capacity)
         {
             int max = Max();
@@ -117,24 +127,26 @@ public class PriorityQueue<T> where T : IComparable<T>
             if (temp.CompareTo(item) >= 0)
             {
                 element[max] = item;
-                Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
+                // Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
                 Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
                 //Postcondition: New size should be the same as size.old
-                Contract.Ensures(element.Count == size);
+                // Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1);
             }
         }
         else
         {
 
             element.Add(item);
-            Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
+            // Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
 
             //Postcondition: New size should be size.old+1
-            Contract.Ensures(element.Count == (size+1));
+            // Contract.Ensures(element.Count == (size+1));
+            // Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1);
+
         }
         // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
-        Contract.Requires(child > 0); //precondition ensuring that child is bigger than 0
+        // Contract.Requires(child > 0); //precondition ensuring that child is bigger than 0
         while (child > 0)
         {
             int parent = (child - 1) / 2;    // binary tree traversal
@@ -153,29 +165,41 @@ public class PriorityQueue<T> where T : IComparable<T>
     // postcondition: remove element at last.
     //                rebuild the binary heap.
     //                size' = size.old - 1
+    // [System.Diagnostics.Conditional("CONTRACT_FULL")]    
     public T Remove()
     {
+        Contract.Requires(element.Count > 0, "PQ must not be empty!");
+        Contract.Ensures(element.Count == Contract.OldValue(element.Count) - 1, "PQ size must be decremented by 1");
         // assume it is not empty, will need to enforce that with Contracts.
         int last = element.Count - 1;
-       Contract.Requires(last > 0);//precondition assuring last is bigger than 0
+        int size = element.Count;
+        // Contract.Requires(last > 0);//precondition assuring last is bigger than 0
         T front_item = element[0];
         element[0] = element[last];
         element.RemoveAt(last);
-
         last--;
+        for(int i = 0; i < element.Count; i++) {
+            if(front_item.CompareTo(element[i]) <= 0) {
+
+            }
+        }
         int parent = 0; // parent index.
         while (true)
         {
             int left_child = parent * 2 + 1; // left child
-            if (left_child > last)
-            {
-                break;
+            if(left_child > last) {
+                break;  // no more children.
             }
-            int right_child = left_child + 1;
-            if (right_child <= last && element[right_child].CompareTo(element[left_child]) <= 0)
+            int right_child = left_child + 1; // right child
+             if (right_child <= last && element[right_child].CompareTo(element[left_child]) < 0)
             { // if there is a right child and it is smaller than left child, use it instead
                 left_child = right_child;
             }
+            if (element[parent].CompareTo(element[left_child]) <= 0) 
+            {
+                break;  // parent is smaller than the smallest child.
+            }
+           
             T temp = element[parent];
             element[parent] = element[left_child];
             element[left_child] = temp;
@@ -183,7 +207,9 @@ public class PriorityQueue<T> where T : IComparable<T>
         }
 
         //Postcondition: New size should be size.old - 1
-        Contract.Ensures(element.Count == last);
+        // Contract.Ensures(element.Count == last);
+        // Contract.Ensures(element.Count == (size - 1));
+
         return front_item;
     }
     public int Max()
@@ -204,10 +230,11 @@ public class PriorityQueue<T> where T : IComparable<T>
     //                display element at position 0.
     public T Min()
     {
+        Contract.Ensures(Contract.Result<T>().Equals(typeof(T)), "wrong type for the minimum!");
         T front = element[0];
 
         //Postcondition: Display element at the front
-        Contract.Ensures(front.Equals(element[0]));
+        // Contract.Ensures(front.Equals(element[0]));
         // Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
         return front;
     }
