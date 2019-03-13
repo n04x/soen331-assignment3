@@ -9,6 +9,18 @@ class BoundedPQProgram
         Console.WriteLine("Begin Priority Queue Program");
         PriorityQueue<Element> pq = new PriorityQueue<Element>(5);
 
+        Element e1 = new Element("Dog", 2.0f);
+        Element e2 = new Element("Cat", 3.0f);
+        Element e3 = new Element("Elephant", 5.0f);
+        Element e4 = new Element("Penguin", 0.5f);
+        Element e5 = new Element("Tiger", 1.5f);
+
+        pq.Insert(e1);
+        pq.Insert(e2);
+        pq.Insert(e3);
+        pq.Insert(e4);
+        pq.Insert(e5);
+
         bool exit = false;
         pq.Insert(new Element("penguin", 0.5f));
         pq.Insert(new Element("dog", 3.0f));
