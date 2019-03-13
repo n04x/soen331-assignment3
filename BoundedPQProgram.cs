@@ -14,42 +14,57 @@ class BoundedPQProgram
         pq.Insert(new Element("dog", 3.0f));
         pq.Insert(new Element("cat", 1.5f));
         pq.Insert(new Element("parrot", 4.5f));
-        Element t1 = new Element("T-rex", -2.5f);
-        pq.Insert(t1);
         while(!exit) {
-            Console.WriteLine("Choose an action:");
-            Console.WriteLine("Type 1 to Insert a new element");
-            Console.WriteLine("Type 2 to Remove an element");
-            Console.WriteLine("Type 3 to return the Minimum");
-            Console.WriteLine("Type 4 to print the queue");
-            Console.WriteLine("Type 5 to exit");
-            int action = Convert.ToInt32(Console.ReadLine());
-            switch(action) {
-                case 1:
-                    Console.WriteLine("Add a new element: ");
-                    string element = Console.ReadLine();
-                    Console.WriteLine("Add a key:");
-                    float key = float.Parse(Console.ReadLine());
-                    // System.Diagnostics.Debug.Assert(key > 0);
-                    // Contract.Requires(key > 0);
-                    Element e = new Element(element, key);
-                    pq.Insert(e);
-                    Console.WriteLine("\n\n");
-                    break;
-                case 2:
-                    Console.WriteLine("We now remove the first element in the PQ");
-                    Console.WriteLine("Element " + pq.Remove().ToString() + " has been removed!\n\n");
-                    break;
-                case 3:
-                    Console.WriteLine("The element with the lowest key is: " + pq.Min().ToString() + "\n\n");
-                    break;
-                case 4:
-                    Console.WriteLine(pq.ToString() + "\n\n");
-                    break;
-                case 5:
-                    Console.WriteLine("Thank you for using BoundedPQ Program!");
-                    exit = true;
-                    break;
+            try
+            {
+                Console.WriteLine("Choose an action:");
+                Console.WriteLine("Type 1 to Insert a new element");
+                Console.WriteLine("Type 2 to Remove an element");
+                Console.WriteLine("Type 3 to return the Minimum");
+                Console.WriteLine("Type 4 to print the queue");
+                Console.WriteLine("Type 5 to exit");
+                int action = Convert.ToInt32(Console.ReadLine());
+                switch (action)
+                {
+                    case 1:
+                        bool done = false;
+                        while (!done)
+                        {
+                            try
+                            {
+                                Console.WriteLine("Add a new element: ");
+                                string element = Console.ReadLine();
+                                Console.WriteLine("Add a key:");
+                                float key = float.Parse(Console.ReadLine());
+                                Element e = new Element(element, key);
+                                pq.Insert(e);
+                                Console.WriteLine("\n\n");
+                                done = true;
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine("We now remove the first element in the PQ");
+                        Console.WriteLine("Element " + pq.Remove().ToString() + " has been removed!\n\n");
+                        break;
+                    case 3:
+                        Console.WriteLine("The element with the lowest key is: " + pq.Min().ToString() + "\n\n");
+                        break;
+                    case 4:
+                        Console.WriteLine(pq.ToString() + "\n\n");
+                        break;
+                    case 5:
+                        Console.WriteLine("Thank you for using BoundedPQ Program!");
+                        exit = true;
+                        break;
+                }
+            } catch(Exception)
+            {
+                Console.WriteLine("Please, enter a valid option\n");
             }
         }
     }
@@ -65,18 +80,16 @@ public class Element : IComparable<Element>
     public float key;      // small value are more important.
 
     // constructor
+    //Precondition: Key must be positive
     public Element(string el, float k)
     {
-        Contract.Requires(k >= 0, "key is negative");
+        Contract.Requires(k >= 0, "Key is negative");
         this.element = el;
         this.key = k;
     }
 
-    // [ContractInvariantMethod]
     public int CompareTo(Element other)
     {
-        // Contract.Invariant(this.key >= 0); //Invariant ensuring the key is >= 0
-        Contract.Requires(this.key >= 0);
         if (this.key < other.key)
         {
             return -1;
@@ -105,20 +118,30 @@ public class PriorityQueue<T> where T : IComparable<T>
         this.element = new List<T>();
         this.capacity = c;
     }
+
+    public int GetElementCount()
+    {
+        return this.element.Count;
+    }
+
+    public int GetCapacity()
+    {
+        return this.capacity;
+    }
+
     // The contract for insert would be:
-    // Precondition: item must be a type T.
-    // Postcondition: if size >= capacity then replace the highest one.
-    //                if size < capacity then add it to the end and perform sorting, using binary traversal
+    // Precondition: Item must be a type T.
+    //               PQ must not be full                 
+    // Postcondition: count' = size.old + 1 or count' = count
     //                size' = size.old + 1.
 
-    // [ContractInvariantMethod]
-    // [System.Diagnostics.Conditional("CONTRACT_FULL")]
     public void Insert(T item)
     {
-        //Precondition: Item must be of type T
-        Contract.Requires(typeof(T) == item.GetType(), "Item must be of type " + typeof(T));
-        Contract.Requires(element.Count <= capacity, "element must be less or equal to capacity"); //Invariant ensuring size is less or equal to capacity
-        Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1, "element is not the proper size");
+        //Preconditions
+        Contract.Requires(typeof(T) == item.GetType(), "Item must be of type T!");
+        Contract.Requires(this.GetElementCount() <= this.GetCapacity(), "Element must be less or equal to capacity"); //Invariant ensuring size is less or equal to capacity
+        //Postconditions
+        Contract.Ensures(this.GetElementCount() == Contract.OldValue(this.GetElementCount()) + 1 || this.GetElementCount() == Contract.OldValue(this.GetElementCount()), "Element is not the proper size");
         int size = element.Count;
         if (size >= capacity)
         {
@@ -127,26 +150,17 @@ public class PriorityQueue<T> where T : IComparable<T>
             if (temp.CompareTo(item) >= 0)
             {
                 element[max] = item;
-                // Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
-                Console.WriteLine("replace this: " + temp.ToString() + " with this: " + item.ToString());
-                //Postcondition: New size should be the same as size.old
-                // Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1);
+                Console.WriteLine("Replace this: " + temp.ToString() + " with this: " + item.ToString());
             }
         }
         else
         {
 
             element.Add(item);
-            // Contract.Ensures(size <= capacity); //post condition to ensure that after this operation, size is still less or equal to capacity
-
-            //Postcondition: New size should be size.old+1
-            // Contract.Ensures(element.Count == (size+1));
-            // Contract.Ensures(element.Count == Contract.OldValue(element.Count) + 1);
 
         }
         // element.Add(item);
         int child = element.Count - 1; // stores the child index at the end.
-        // Contract.Requires(child > 0); //precondition ensuring that child is bigger than 0
         while (child > 0)
         {
             int parent = (child - 1) / 2;    // binary tree traversal
@@ -161,19 +175,20 @@ public class PriorityQueue<T> where T : IComparable<T>
         }
     }
     // The contract for remove would be:
-    // precondition: highest priority item must be at first.
-    // postcondition: remove element at last.
-    //                rebuild the binary heap.
-    //                size' = size.old - 1
-    // [System.Diagnostics.Conditional("CONTRACT_FULL")]    
+    // precondition: The PQ must not be empty
+    // postcondition: Remove min on PQ
+    //                size' = size.old - 1  
     public T Remove()
     {
-        Contract.Requires(element.Count > 0, "PQ must not be empty!");
-        Contract.Ensures(element.Count == Contract.OldValue(element.Count) - 1, "PQ size must be decremented by 1");
+        //Precondition
+        Contract.Requires(this.GetElementCount() > 0, "PQ must not be empty!");
+        //Postconditions
+        Contract.Ensures(Contract.OldValue(element[0]).Equals(Contract.Result<T>()), "Removed item must be the minimun!");
+        Contract.Ensures(this.GetElementCount() == Contract.OldValue(this.GetElementCount()) - 1, "PQ size must be decremented by 1");
+
         // assume it is not empty, will need to enforce that with Contracts.
         int last = element.Count - 1;
         int size = element.Count;
-        // Contract.Requires(last > 0);//precondition assuring last is bigger than 0
         T front_item = element[0];
         element[0] = element[last];
         element.RemoveAt(last);
@@ -206,10 +221,6 @@ public class PriorityQueue<T> where T : IComparable<T>
             parent = left_child;
         }
 
-        //Postcondition: New size should be size.old - 1
-        // Contract.Ensures(element.Count == last);
-        // Contract.Ensures(element.Count == (size - 1));
-
         return front_item;
     }
     public int Max()
@@ -226,16 +237,15 @@ public class PriorityQueue<T> where T : IComparable<T>
     }
     // The contract for min would be:
     // precondtion: -
-    // postcondition: front must be of type T.
+    // postcondition: Front must be of type T.
     //                display element at position 0.
     public T Min()
     {
-        Contract.Ensures(Contract.Result<T>().Equals(typeof(T)), "wrong type for the minimum!");
+        //Postconditions
+        Contract.Ensures(Contract.Result<T>().GetType() == typeof(T), "Wrong type for the minimum!");
+        Contract.Ensures(Contract.Result<T>().Equals(Contract.OldValue(element[0])));
         T front = element[0];
-
-        //Postcondition: Display element at the front
-        // Contract.Ensures(front.Equals(element[0]));
-        // Contract.Ensures(front.element == element[0].element && front.key == element[0].key);
+        
         return front;
     }
   

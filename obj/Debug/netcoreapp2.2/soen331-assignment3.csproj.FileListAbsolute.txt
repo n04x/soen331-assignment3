@@ -31,3 +31,14 @@
 /home/achung/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.runtimeconfig.dev.json
 /home/achung/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.dll
 /home/achung/soen331/soen331-assignment3/bin/Debug/netcoreapp2.2/soen331-assignment3.pdb
+C:\Users\achun\Desktop\New folder\soen331-assignment3\bin\Debug\netcoreapp2.2\soen331-assignment3.deps.json
+C:\Users\achun\Desktop\New folder\soen331-assignment3\bin\Debug\netcoreapp2.2\soen331-assignment3.runtimeconfig.json
+C:\Users\achun\Desktop\New folder\soen331-assignment3\bin\Debug\netcoreapp2.2\soen331-assignment3.runtimeconfig.dev.json
+C:\Users\achun\Desktop\New folder\soen331-assignment3\bin\Debug\netcoreapp2.2\soen331-assignment3.dll
+C:\Users\achun\Desktop\New folder\soen331-assignment3\bin\Debug\netcoreapp2.2\soen331-assignment3.pdb
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.csprojAssemblyReference.cache
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.csproj.CoreCompileInputs.cache
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.AssemblyInfoInputs.cache
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.AssemblyInfo.cs
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.dll
+C:\Users\achun\Desktop\New folder\soen331-assignment3\obj\Debug\netcoreapp2.2\soen331-assignment3.pdb

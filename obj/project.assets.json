@@ -686,23 +686,23 @@
     ]
   },
   "packageFolders": {
-    "/home/noax/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\achun\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/noax/Documents/soen331/soen331-assignment3/soen331-assignment3.csproj",
+      "projectUniqueName": "C:\\Users\\achun\\Desktop\\New folder\\soen331-assignment3\\soen331-assignment3.csproj",
       "projectName": "soen331-assignment3",
-      "projectPath": "/home/noax/Documents/soen331/soen331-assignment3/soen331-assignment3.csproj",
-      "packagesPath": "/home/noax/.nuget/packages/",
-      "outputPath": "/home/noax/Documents/soen331/soen331-assignment3/obj/",
+      "projectPath": "C:\\Users\\achun\\Desktop\\New folder\\soen331-assignment3\\soen331-assignment3.csproj",
+      "packagesPath": "C:\\Users\\achun\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\achun\\Desktop\\New folder\\soen331-assignment3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/noax/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\achun\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -738,13 +738,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file /home/noax/Documents/soen331/soen331-assignment3/obj/soen331-assignment3.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
