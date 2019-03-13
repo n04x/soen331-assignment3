@@ -8,7 +8,7 @@ class BoundedPQProgram
     {
         Console.WriteLine("Begin Priority Queue Program");
         PriorityQueue<Element> pq = new PriorityQueue<Element>(5);
-
+    
         bool exit = false;
         pq.Insert(new Element("penguin", 0.5f));
         pq.Insert(new Element("dog", 3.0f));
