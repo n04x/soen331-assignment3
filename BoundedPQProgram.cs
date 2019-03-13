@@ -147,6 +147,7 @@ public class PriorityQueue<T> where T : IComparable<T>
         {
             int max = Max();
             T temp = element[max];
+            Console.WriteLine(max);
             if (temp.CompareTo(item) >= 0)
             {
                 element[max] = item;
@@ -226,7 +227,7 @@ public class PriorityQueue<T> where T : IComparable<T>
     public int Max()
     {
         int index = 0;
-        for (int i = 1; i < element.Count - 1; i++)
+        for (int i = 1; i < element.Count; i++)
         {
             if (element[index].CompareTo(element[i]) <= 0)
             {
